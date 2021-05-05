@@ -37,13 +37,10 @@ class LineItemsController < ApplicationController
     product = Product.find(params[:product_id])
     @line_item = @cart.add_product(product)
 
-    # reset the session counter whenever we add a line item
-    session[:counter] = 0
-
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to store_index_url }
-        format.js { @current_item = @line_item }
+        format.js   { @current_item = @line_item }
         format.json { render :show,
           status: :created, location: @line_item }
       else
